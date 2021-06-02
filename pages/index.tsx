@@ -40,12 +40,6 @@ export default function Home() {
                   <div>
                     <TweetEmbed tweetId="1396119327171125250" />
                   </div>
-                  <div>
-                    <TweetEmbed tweetId="1399045083807297536" />
-                  </div>
-                  <div>
-                    <TweetEmbed tweetId="1398907804795256832" />
-                  </div>
                 </div>
               </div>
             </main>
