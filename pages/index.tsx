@@ -1,15 +1,19 @@
 import React from "react"
 import Head from "next/head"
 import { Tweet as TweetEmbed } from "react-twitter-widgets"
+import axios, { AxiosResponse } from "axios"
 import { Tabs, Footer } from "../components"
 import { categories } from "../utils/app"
-import { supabase } from "../utils/supabaseClient"
 
 interface Tweet {
   id: string;
   tweet_id: string;
   category: number;
   active: boolean;
+}
+
+interface TweetResponse {
+  tweets: Tweet[];
 }
 
 export default function Home() {
@@ -21,9 +25,8 @@ export default function Home() {
 
   React.useEffect(() => {
     const fetchInitialTweets = async () => {
-      const { data } = await supabase.from("tweets")
-        .select().eq("active", true).order("created_at", { ascending: false })
-      setTweets(data)
+      const response: AxiosResponse<TweetResponse> = await axios.get("/api/tweets?category=all")
+      setTweets(response.data.tweets)
     }
     fetchInitialTweets()
   }, [])
@@ -31,17 +34,11 @@ export default function Home() {
   async function handleTabChange(id: number): Promise<void> {
     setLoading(true)
     setActiveTab(id)
-    let response: any
 
-    if (id === 0) {
-      response = await supabase.from("tweets")
-        .select().eq("active", true).order("created_at", { ascending: false })
-    } else {
-      response = await supabase.from("tweets")
-        .select().eq("category", id).eq("active", true).order("created_at", { ascending: false })
-    }
+    const category_id = id === 0 ? "all" : id
+    const response: AxiosResponse<TweetResponse> = await axios.get(`/api/tweets?category=${category_id}`)
+    setTweets(response.data.tweets)
 
-    setTweets(response.data)
     setLoading(false)
   }
 

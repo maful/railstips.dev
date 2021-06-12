@@ -23,7 +23,7 @@ const Tabs = (props: TabsProps): JSX.Element => {
         <li key={index}>
           <a
             onClick={() => onChange(cat.id)}
-            className={`p-3 cursor-pointer text-gray-600 hover:bg-red-500 hover:text-white rounded-lg ${cat.id === activeTab ? 'bg-red-300 bg-opacity-50 text-red-700' : null}`}
+            className={`p-3 cursor-pointer text-gray-600 hover:bg-red-500 hover:text-white rounded-lg ${cat.id === activeTab ? 'bg-red-300 bg-opacity-50 text-red-600' : null}`}
           >
             {cat.title}
           </a>
