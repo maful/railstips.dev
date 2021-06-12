@@ -47,6 +47,12 @@ export default function Home() {
       <Head>
         <title>RailsTips - Find the most useful tips &amp; tricks</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="Find the most useful tips &amp; tricks to make your code better" />
+        <meta property="og:title" content="Ruby on Rails Tips"/>
+        <meta property="og:description" content="Find the most useful tips &amp; tricks to make your code better"/>
+        <meta property="og:image" content="https://railstips.dev/og-image.jpeg"/>
+        <meta property="og:url" content="https://railstips.dev/"/>
+        <meta property="og:type" content="website" />
       </Head>
 
       <div className="relative bg-white overflow-hidden">
