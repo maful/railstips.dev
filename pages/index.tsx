@@ -62,7 +62,7 @@ export default function Home() {
                   <span className="block text-red-600 xl:inline">Rails</span>
                   <span className="block xl:inline">Tips</span>
                 </h1>
-                <div>Find the most useful tips & tricks.</div>
+                <div className="mt-2">Find the most useful tips & tricks.</div>
               </div>
             </div>
 
