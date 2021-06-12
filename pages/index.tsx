@@ -62,19 +62,21 @@ export default function Home() {
             <div>
               <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
                 <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                  <span className="block text-red-600 xl:inline">Rails</span>
-                  <span className="block xl:inline">Tips</span>
+                  <span className="md:block text-red-600 xl:inline">Rails</span>
+                  <span className="md:block xl:inline">Tips</span>
                 </h1>
                 <div className="mt-2">Find the most useful tips &amp; tricks</div>
               </div>
             </div>
 
             <main className="mt-8 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-              <Tabs
-                activeTab={activeTab}
-                categories={sorted_categories}
-                onChange={handleTabChange}
-              />
+              <div className="overflow-x-auto">
+                <Tabs
+                  activeTab={activeTab}
+                  categories={sorted_categories}
+                  onChange={handleTabChange}
+                />
+              </div>
               <div className="sm:text-center lg:text-left">
                 {loading ? (
                   <svg className="animate-spin h-8 w-8 my-0 mx-auto text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -82,7 +84,7 @@ export default function Home() {
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
                 ) : (
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4">
                     {tweets && tweets.map(tweet => (
                       <div key={tweet.id}>
                         <TweetEmbed tweetId={tweet.tweet_id} />
