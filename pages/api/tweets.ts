@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { supabase } from  "../../utils/supabaseClient"
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const TweetsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     const query = req.query
     const { data, error } = await fetchTweets(query.category)
@@ -28,3 +28,5 @@ async function fetchTweets(category: string | string[]) {
 
   return response
 }
+
+export default TweetsHandler
