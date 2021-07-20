@@ -1,16 +1,11 @@
+import { Category } from 'models/category'
 import React from 'react'
 
-interface Category {
-  id: number;
-  title: string;
-  position: number;
-}
-
-type OnChangeFn = (id: number) => void;
+type OnChangeFn = (id: string) => void;
 
 interface TabsProps {
   categories: Category[];
-  activeTab?: number;
+  activeTab?: string;
   onChange: OnChangeFn;
 }
 
@@ -19,13 +14,13 @@ const Tabs = (props: TabsProps): JSX.Element => {
 
   return (
     <ul className="flex flex-row gap-4 my-4 font-medium">
-      {categories.map((cat, index) => (
+      {categories && categories.map((cat, index) => (
         <li key={index}>
           <a
             onClick={() => onChange(cat.id)}
             className={`p-3 cursor-pointer text-gray-600 hover:bg-red-500 hover:text-white rounded-lg ${cat.id === activeTab ? 'bg-red-300 bg-opacity-50 text-red-600' : null}`}
           >
-            {cat.title}
+            {cat.name}
           </a>
         </li>
       ))}

@@ -1,3 +1,20 @@
 {
-  "extends": "next"
+  "extends": [
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "next",
+    "prettier"
+  ],
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "semi": [2, "never"],
+    "@typescript-eslint/type-annotation-spacing": "error",
+    "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+    "@typescript-eslint/quotes": "off",
+    "@typescript-eslint/semi": "off",
+    "no-unexpected-multiline": "error",
+    "import/no-anonymous-default-export": [2, {"allowArrowFunction": true}]
+  }
 }

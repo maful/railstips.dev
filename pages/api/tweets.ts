@@ -1,8 +1,10 @@
+import { PostgrestResponse } from '@supabase/postgrest-js/dist/main/lib/types'
+import { Tweet } from 'models/tweet'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { supabase } from  "../../utils/supabaseClient"
+import { supabase } from 'utils/supabaseClient'
 
-const TweetsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "GET") {
+export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+  if (req.method === 'GET') {
     const query = req.query
     const { data, error } = await fetchTweets(query.category)
 
@@ -17,16 +19,22 @@ const TweetsHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 async function fetchTweets(category: string | string[]) {
-  let response: any
-  if (category === "all") {
-    response = await supabase.from("tweets")
-      .select().eq("active", true).order("created_at", { ascending: false })
+  let response: PostgrestResponse<Tweet>
+  if (category === 'all') {
+    response = await supabase
+      .from<Tweet>('tweets')
+      .select()
+      .eq('active', true)
+      .order('created_at', { ascending: false })
   } else {
-    response = await supabase.from("tweets")
-      .select().eq("category", Number(category)).eq("active", true).order("created_at", { ascending: false })
+    const category_id = Array.isArray(category) ? category[0] : category
+    response = await supabase
+      .from<Tweet>('tweets')
+      .select()
+      .eq('category_id', category_id)
+      .eq('active', true)
+      .order('created_at', { ascending: false })
   }
 
   return response
 }
-
-export default TweetsHandler
