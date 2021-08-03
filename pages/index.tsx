@@ -1,10 +1,9 @@
 import React from 'react'
-import Head from 'next/head'
 import { Tweet as TweetEmbed } from 'react-twitter-widgets'
 import axios, { AxiosResponse } from 'axios'
 import { Tabs, Footer } from 'components'
-import { Tweet } from 'models/tweet'
-import { Category } from 'models/category'
+import { Tweet } from 'lib/models/tweet'
+import { Category } from 'lib/models/category'
 
 interface TweetsResponse {
   tweets: Tweet[]
@@ -50,26 +49,6 @@ export default function Home(): JSX.Element {
 
   return (
     <div>
-      <Head>
-        <title>RailsTips - Find the most useful tips &amp; tricks</title>
-        <link rel="icon" href="/favicon.ico" />
-        <meta
-          name="description"
-          content="Find the most useful tips &amp; tricks to make your code better"
-        />
-        <meta property="og:title" content="Ruby on Rails Tips" />
-        <meta
-          property="og:description"
-          content="Find the most useful tips &amp; tricks to make your code better"
-        />
-        <meta
-          property="og:image"
-          content="https://railstips.dev/og-image.jpeg"
-        />
-        <meta property="og:url" content="https://railstips.dev/" />
-        <meta property="og:type" content="website" />
-      </Head>
-
       <div className="relative bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:w-full lg:pb-28 xl:pb-32">

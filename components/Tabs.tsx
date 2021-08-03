@@ -1,4 +1,4 @@
-import { Category } from 'models/category'
+import { Category } from 'lib/models/category'
 import React from 'react'
 
 type OnChangeFn = (id: string) => void;

@@ -1,0 +1,69 @@
+:root {
+  --primary: #dc2626;
+  --primary-2: #111;
+  --secondary: #ffffff;
+  --secondary-2: #f1f3f5;
+  --hover: rgba(255, 255, 255, 0.075);
+  --hover-1: rgba(255, 255, 255, 0.15);
+  --hover-2: rgba(255, 255, 255, 0.25);
+  --selection: var(--purple);
+
+  --text-base: #111;
+  --text-primary: white;
+  --text-secondary: black;
+
+  --accents-0: #dc2626;
+  --accents-1: #d34747;
+  --accents-2: #da5d5d;
+  --accents-3: #c45959;
+  --accents-4: #d47c7c;
+  --accents-5: #d38d8d;
+  --accents-6: #cf9f9f;
+  --accents-7: #dbb4b4;
+  --accents-8: #e7cdcd;
+  --accents-9: #ebdede;
+
+  --font-sans: -apple-system, system-ui, BlinkMacSystemFont, 'Helvetica Neue',
+    'Helvetica', sans-serif;
+
+  --header-height: 80px;
+  --vh100-offset: calc(100vh - var(--header-height));
+}
+
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.height-screen-helper {
+  height: var(--vh100-offset);
+}

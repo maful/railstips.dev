@@ -1,5 +1,5 @@
 import { PostgrestResponse } from '@supabase/postgrest-js/dist/main/lib/types'
-import { Tweet } from 'models/tweet'
+import { Tweet } from 'lib/models/tweet'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { supabase } from 'utils/supabaseClient'
 

@@ -10,11 +10,14 @@
   ],
   "rules": {
     "semi": [2, "never"],
+    "quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
     "@typescript-eslint/type-annotation-spacing": "error",
     "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
     "@typescript-eslint/quotes": "off",
     "@typescript-eslint/semi": "off",
     "no-unexpected-multiline": "error",
-    "import/no-anonymous-default-export": [2, {"allowArrowFunction": true}]
+    "import/no-anonymous-default-export": [2, {"allowArrowFunction": true}],
+    "react-hooks/exhaustive-deps": "off",
+    "no-console": "error"
   }
 }

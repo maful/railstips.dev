@@ -1,4 +1,4 @@
-import { Category } from 'models/category'
+import { Category } from 'lib/models/category'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { supabase } from 'utils/supabaseClient'
 
