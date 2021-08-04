@@ -1,20 +1,27 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+
 import Navbar from 'components/ui/Navbar'
+import { useUser } from '@/hooks/authUser'
 
 interface LayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [propName: string]: any;
+  [propName: string]: any
 }
 
-export default function Layout({ children, meta: pageMeta }: LayoutProps): JSX.Element {
+export default function Layout({
+  children,
+  meta: pageMeta,
+}: LayoutProps): JSX.Element {
   const router = useRouter()
+  const { user } = useUser()
   const meta = {
     title: 'RailsTips - Find the most useful tips &amp; tricks',
-    description: 'Find the most useful tips &amp; tricks to make your code better',
+    description:
+      'Find the most useful tips &amp; tricks to make your code better',
     cardImage: '/og-image.jpeg',
-    ...pageMeta
+    ...pageMeta,
   }
 
   return (
@@ -39,7 +46,7 @@ export default function Layout({ children, meta: pageMeta }: LayoutProps): JSX.E
         <meta name="twitter:description" content={meta.description} />
         <meta name="twitter:image" content={meta.cardImage} />
       </Head>
-      <Navbar />
+      {user && <Navbar />}
       <main>{children}</main>
     </>
   )
