@@ -88,7 +88,7 @@ function CategoriesIndex(): JSX.Element {
         Cell: ({ row }) => {
           return (
             <div className="flex item-center justify-center">
-              <Link href={`${router.asPath}/1/edit`}>
+              <Link href={`${router.asPath}/${row.original.id}/edit`}>
                 <a>
                   <PencilIcon className="w-4 h-4 mr-2 transform hover:text-purple-500 hover:scale-110" />
                 </a>
@@ -106,9 +106,15 @@ function CategoriesIndex(): JSX.Element {
 
   const deleteCategoryMutation = useDeleteCategory({
     onSuccess: (_, deletedId) => {
+      // Remove the category cache
+      queryClient.removeQueries(categoryKeys.detail(deletedId), { exact: true })
+
+      // Update the data
       queryClient.setQueriesData<Categories>(categoryKeys.lists(), (prev) => {
         return prev.filter((category) => category.id !== deletedId)
       })
+
+      // Invalidate the categories cache
       queryClient.invalidateQueries({
         queryKey: categoryKeys.lists(),
         exact: true,

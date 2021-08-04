@@ -6,4 +6,9 @@ export interface Category {
   created_at?: Date;
 }
 
+export interface UpdateCategoryForm {
+  id: string;
+  category: Category;
+}
+
 export type Categories = Category[]

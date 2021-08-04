@@ -8,8 +8,7 @@ function useLocalStorage<T>(key: string, initialValue: T) {
       const item = window.localStorage.getItem(key)
       // Parse stored json or if none return initialValue
       return item ? JSON.parse(item) : initialValue
-    } catch (error) {
-      console.log(error)
+    } catch (_) {
       return initialValue
     }
   })
@@ -24,9 +23,7 @@ function useLocalStorage<T>(key: string, initialValue: T) {
       setStoredValue(valueToStore)
       // Save to local storage
       window.localStorage.setItem(key, JSON.stringify(valueToStore))
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (_) {}
   }
 
   return [storedValue, setValue] as const

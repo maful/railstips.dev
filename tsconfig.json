@@ -21,7 +21,8 @@
     "paths": {
       "@/hooks/*": ["lib/hooks/*"],
       "@/databases/*": ["lib/databases/*"],
-      "@/models/*": ["lib/models/*"]
+      "@/models/*": ["lib/models/*"],
+      "@/features/*": ["components/features/*"]
     }
   },
   "include": [

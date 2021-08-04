@@ -1,6 +1,6 @@
-import { createTweet, deleteTweet, getTweet, getTweets } from '@/databases/tweets'
+import { createTweet, deleteTweet, getTweet, getTweets, updateTweet } from '@/databases/tweets'
 import { PostgrestError } from '@/models/commons'
-import { Tweet, Tweets } from '@/models/tweet'
+import { Tweet, Tweets, UpdateTweetForm } from '@/models/tweet'
 import {
   useMutation, UseMutationOptions, UseMutationResult, useQuery,
   UseQueryOptions, UseQueryResult,
@@ -13,14 +13,23 @@ function useTweets<TData = Tweets>(
   return useQuery(tweetKeys.lists(), getTweets, options)
 }
 
-function useTweet(id: string): UseQueryResult<Tweet, Error> {
-  return useQuery(['tweet', id], () => getTweet(id))
+function useTweet<TData = Tweet>(
+  id: string,
+  options?: UseQueryOptions<Tweet, Error, TData>
+): UseQueryResult<TData, Error> {
+  return useQuery(tweetKeys.detail(id), () => getTweet(id), options)
 }
 
 function useCreateTweet(
   options?: UseMutationOptions<Tweet, PostgrestError, Tweet>
 ): UseMutationResult<Tweet, PostgrestError, Tweet> {
   return useMutation(createTweet, options)
+}
+
+function useUpdateTweet(
+  options?: UseMutationOptions<Tweet, PostgrestError, UpdateTweetForm>
+): UseMutationResult<Tweet, PostgrestError, UpdateTweetForm> {
+  return useMutation(updateTweet, options)
 }
 
 function useDeleteTweet(
@@ -34,5 +43,6 @@ export {
   useTweets,
   useTweet,
   useCreateTweet,
+  useUpdateTweet,
   useDeleteTweet
 }

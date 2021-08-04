@@ -37,6 +37,7 @@ function TweetsIndex(): JSX.Element {
   })
   const deleteTweetMutation = useDeleteTweet({
     onSuccess: (_, deletedId) => {
+      queryClient.removeQueries(tweetKeys.detail(deletedId), { exact: true })
       queryClient.setQueriesData<Tweets>(tweetKeys.lists(), (prev) => {
         return prev.filter((tweet) => tweet.id !== deletedId)
       })

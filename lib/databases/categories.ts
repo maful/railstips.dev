@@ -1,4 +1,4 @@
-import { Categories, Category } from '@/models/category'
+import { Categories, Category, UpdateCategoryForm } from '@/models/category'
 import { supabase } from 'utils/supabaseClient'
 
 const TABLE = 'categories'
@@ -24,7 +24,19 @@ const getCategories = async (filter?: Filter): Promise<Categories> => {
   return data
 }
 
-const createCatgeory = async (tweet: Category): Promise<Category> => {
+const getCategory = async (id: string): Promise<Category> => {
+  const { data, error } = await supabase
+    .from<Category>(TABLE)
+    .select('*')
+    .eq('id', id)
+    .single()
+
+  if (error) throw error
+
+  return data
+}
+
+const createCategory = async (tweet: Category): Promise<Category> => {
   const { data, error } = await supabase
     .from<Category>(TABLE)
     .insert(tweet)
@@ -32,6 +44,18 @@ const createCatgeory = async (tweet: Category): Promise<Category> => {
   if (error) throw error
 
   return data[0]
+}
+
+const updateCategory = async (form: UpdateCategoryForm): Promise<Category> => {
+  const { data, error } = await supabase
+    .from<Category>(TABLE)
+    .update({ ...form.category })
+    .match({ id: form.id })
+    .single()
+
+  if (error) throw error
+
+  return data
 }
 
 const deleteCategory = async (id: string): Promise<Category> => {
@@ -47,6 +71,8 @@ const deleteCategory = async (id: string): Promise<Category> => {
 
 export {
   getCategories,
-  createCatgeory,
+  getCategory,
+  createCategory,
+  updateCategory,
   deleteCategory
 }

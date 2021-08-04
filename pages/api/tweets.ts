@@ -1,12 +1,22 @@
-import { PostgrestResponse } from '@supabase/postgrest-js/dist/main/lib/types'
-import { Tweet } from 'lib/models/tweet'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { Tweet } from 'lib/models/tweet'
 import { supabase } from 'utils/supabaseClient'
+
+interface Filter {
+  category: string;
+  startCursor?: number;
+  endCursor?: number;
+}
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   if (req.method === 'GET') {
     const query = req.query
-    const { data, error } = await fetchTweets(query.category)
+    const category = query.category.toString()
+    // const startCursor = query.start.toString() ?? '0'
+    // const endCursor = query.end.toString() ?? '10'
+    const { data, error } = await fetchTweets({
+      category
+    })
 
     if (error) {
       res.status(400).json({ message: error.message })
@@ -18,23 +28,19 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
   }
 }
 
-async function fetchTweets(category: string | string[]) {
-  let response: PostgrestResponse<Tweet>
-  if (category === 'all') {
-    response = await supabase
-      .from<Tweet>('tweets')
-      .select()
-      .eq('active', true)
-      .order('created_at', { ascending: false })
-  } else {
-    const category_id = Array.isArray(category) ? category[0] : category
-    response = await supabase
-      .from<Tweet>('tweets')
-      .select()
-      .eq('category_id', category_id)
-      .eq('active', true)
-      .order('created_at', { ascending: false })
+async function fetchTweets(filter: Filter) {
+  let query = supabase
+    .from<Tweet>('tweets')
+    .select()
+    .eq('active', true)
+    .order('created_at', { ascending: false })
+    // .range(filter.startCursor, filter.endCursor)
+
+  if (filter.category !== 'all') {
+    query = query.eq('category_id', filter.category)
   }
+
+  const response = await query
 
   return response
 }

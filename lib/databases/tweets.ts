@@ -1,4 +1,4 @@
-import { Tweet, Tweets } from '@/models/tweet'
+import { Tweet, Tweets, UpdateTweetForm } from '@/models/tweet'
 import { supabase } from 'utils/supabaseClient'
 
 const TABLE = 'tweets'
@@ -43,6 +43,17 @@ const createTweet = async (tweet: Tweet): Promise<Tweet> => {
   return data[0]
 }
 
+const updateTweet = async (form: UpdateTweetForm): Promise<Tweet> => {
+  const { data, error } = await supabase
+    .from<Tweet>(TABLE)
+    .update({ ...form.tweet })
+    .match({ id: form.id })
+
+  if (error) throw error
+
+  return data[0]
+}
+
 const deleteTweet = async (id: string): Promise<Tweet> => {
   const { data, error } = await supabase
     .from<Tweet>(TABLE)
@@ -58,5 +69,6 @@ export {
   getTweets,
   getTweet,
   createTweet,
+  updateTweet,
   deleteTweet
 }

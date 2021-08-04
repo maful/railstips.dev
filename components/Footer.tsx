@@ -1,9 +1,11 @@
-import React from "react"
+import React from 'react'
 
 function Footer(): JSX.Element {
   return (
     <footer className="flex flex-col items-center pb-16">
-      <span className="font-serif text-gray-500">Built with ❤️ by Maful | All Credit for Tweet Author</span>
+      <span className="font-serif text-gray-500">
+        Built with ❤️ by Maful | All Credit for Tweet Author
+      </span>
       <div className="flex gap-x-4 mb-8 pt-4">
         <a href="https://twitter.com/mafulprayoga">
           <svg

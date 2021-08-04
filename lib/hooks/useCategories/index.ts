@@ -1,5 +1,8 @@
-import { createCatgeory, deleteCategory, getCategories } from '@/databases/categories'
-import { Categories, Category } from '@/models/category'
+import {
+  createCategory, deleteCategory, getCategories,
+  getCategory, updateCategory
+} from '@/databases/categories'
+import { Categories, Category, UpdateCategoryForm } from '@/models/category'
 import { PostgrestError } from '@/models/commons'
 import {
   useMutation, UseMutationOptions, UseMutationResult,
@@ -19,10 +22,23 @@ function useActiveCategories<TData = Categories>(
   return useQuery(categoryKeys.list('active'), () => getCategories({ active: true }), options)
 }
 
+function useCategory<TData = Category>(
+  id: string,
+  options?: UseQueryOptions<Category, Error, TData>
+): UseQueryResult<TData, Error> {
+  return useQuery(categoryKeys.detail(id), () => getCategory(id), options)
+}
+
 function useCreateCategory(
   options?: UseMutationOptions<Category, PostgrestError, Category>
 ): UseMutationResult<Category, PostgrestError, Category> {
-  return useMutation(createCatgeory, options)
+  return useMutation(createCategory, options)
+}
+
+function useUpdateCategory(
+  options?: UseMutationOptions<Category, PostgrestError, UpdateCategoryForm>
+): UseMutationResult<Category, PostgrestError, UpdateCategoryForm> {
+  return useMutation(updateCategory, options)
 }
 
 function useDeleteCategory(
@@ -35,6 +51,8 @@ export {
   categoryKeys,
   useCategories,
   useActiveCategories,
+  useCategory,
   useCreateCategory,
+  useUpdateCategory,
   useDeleteCategory
 }
