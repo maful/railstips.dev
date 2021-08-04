@@ -10,7 +10,7 @@ import { Tweet } from '@/models/tweet'
 function TweetsEdit(): JSX.Element {
   const queryClient = useQueryClient()
   const router = useRouter()
-  const id = router.query.id.toString()
+  const id = router.query.id?.toString()
 
   const { data, isLoading } = useTweet(id, { refetchOnWindowFocus: false })
 

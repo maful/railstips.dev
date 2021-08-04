@@ -14,7 +14,7 @@ import { Category } from '@/models/category'
 function CategoriesEdit(): JSX.Element {
   const queryClient = useQueryClient()
   const router = useRouter()
-  const id = router.query.id.toString()
+  const id = router.query.id?.toString()
 
   const { data, isLoading } = useCategory(id, { refetchOnWindowFocus: false })
 

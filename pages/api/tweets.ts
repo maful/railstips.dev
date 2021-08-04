@@ -11,7 +11,7 @@ interface Filter {
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   if (req.method === 'GET') {
     const query = req.query
-    const category = query.category.toString()
+    const category = query.category?.toString()
     // const startCursor = query.start.toString() ?? '0'
     // const endCursor = query.end.toString() ?? '10'
     const { data, error } = await fetchTweets({
