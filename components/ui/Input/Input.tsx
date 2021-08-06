@@ -1,9 +1,10 @@
-import React from 'react'
+import * as React from 'react'
 import cn from 'classnames'
 import s from './Input.module.css'
 
-interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
-  onChange(val: string): void;
+interface InputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+  onChange(val: string): void
 }
 
 const Input = (props: InputProps): JSX.Element => {

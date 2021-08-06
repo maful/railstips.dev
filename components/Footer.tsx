@@ -1,5 +1,3 @@
-import React from 'react'
-
 function Footer(): JSX.Element {
   return (
     <footer className="flex flex-col items-center pb-16">
