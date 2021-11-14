@@ -1,9 +1,9 @@
-import { Category } from 'lib/models/category'
+import { Categories } from 'lib/models/category'
 
 type OnChangeFn = (id: string) => void
 
 interface TabsProps {
-  categories: Category[]
+  categories: Categories
   activeTab?: string
   onChange: OnChangeFn
 }

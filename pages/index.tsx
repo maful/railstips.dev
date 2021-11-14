@@ -1,50 +1,36 @@
 import React from 'react'
 import { Tweet as TweetEmbed } from 'react-twitter-widgets'
-import axios, { AxiosResponse } from 'axios'
 import { Tabs, Footer } from 'components'
-import { Tweet } from 'lib/models/tweet'
-import { Category } from 'lib/models/category'
-
-interface TweetsResponse {
-  tweets: Tweet[]
-}
-
-interface CategoriesResponse {
-  categories: Category[]
-}
+import { FilterTweets } from '@/models/tweet'
+import { useTweetsFilter } from '@/hooks/useTweets'
+import { useActiveCategories } from '@/hooks/useCategories'
+import { Category } from '@/models/category'
 
 export default function Home(): JSX.Element {
+  const [filters, setFilters] = React.useState<FilterTweets>({ categoryId: 'all' })
   const [loading, setLoading] = React.useState(false)
   const [activeTab, setActiveTab] = React.useState<string>('0')
-  const [tweets, setTweets] = React.useState<Tweet[]>(null)
-  const [categories, setCategories] = React.useState<Category[]>(null)
-
-  React.useEffect(() => {
-    const fetchInitialTweets = async () => {
-      const response: AxiosResponse<TweetsResponse> = await axios.get('/api/tweets?category=all')
-      setTweets(response.data.tweets)
-    }
-
-    const fetchCategories = async () => {
-      const response: AxiosResponse<CategoriesResponse> = await axios.get('/api/categories')
-      setCategories(response.data.categories)
-    }
-
-    fetchInitialTweets()
-    fetchCategories()
-  }, [])
+  const {
+    isLoading,
+    data: tweets,
+  } = useTweetsFilter(filters, { notifyOnChangeProps: 'tracked' })
+  const { data: categories } = useActiveCategories({ initialData: () => [], notifyOnChangeProps: 'tracked' })
 
   async function handleTabChange(id: string): Promise<void> {
     setLoading(true)
     setActiveTab(id)
 
-    const category_id = id === '0' ? 'all' : id
-    const response: AxiosResponse<TweetsResponse> = await axios.get(
-      `/api/tweets?category=${category_id}`
-    )
-    setTweets(response.data.tweets)
+    const categoryId = id === '0' ? 'all' : id
+    setFilters({ categoryId })
 
     setLoading(false)
+  }
+
+  const firstCategory: Category = {
+    id: '0',
+    rank: 1,
+    name: 'All',
+    active: true
   }
 
   return (
@@ -53,10 +39,10 @@ export default function Home(): JSX.Element {
         <div className="max-w-7xl mx-auto">
           <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:w-full lg:pb-28 xl:pb-32">
             <div>
-              <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
+              <div className="relative pt-6 px-4 sm:px-6 md:px-16">
                 <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                  <span className="md:block text-red-600 xl:inline">Rails</span>
-                  <span className="md:block xl:inline">Tips</span>
+                  <span className="inline text-red-600">Rails</span>
+                  <span className="inline">Tips</span>
                 </h1>
                 <div className="mt-2">
                   Find the most useful tips &amp; tricks
@@ -64,16 +50,16 @@ export default function Home(): JSX.Element {
               </div>
             </div>
 
-            <main className="mt-8 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+            <main className="mx-auto max-w-7xl mt-6 px-4 sm:mt-12 sm:px-6 md:mt-12 md:px-16">
               <div className="overflow-x-auto">
                 <Tabs
                   activeTab={activeTab}
-                  categories={categories}
+                  categories={[firstCategory, ...categories]}
                   onChange={handleTabChange}
                 />
               </div>
               <div className="sm:text-center lg:text-left">
-                {loading ? (
+                {loading || isLoading ? (
                   <svg
                     className="animate-spin h-8 w-8 my-0 mx-auto text-red-600"
                     xmlns="http://www.w3.org/2000/svg"
@@ -96,12 +82,11 @@ export default function Home(): JSX.Element {
                   </svg>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4">
-                    {tweets &&
-                      tweets.map((tweet) => (
-                        <div key={tweet.id}>
-                          <TweetEmbed tweetId={tweet.tweet_id} />
-                        </div>
-                      ))}
+                    {tweets.map((tweet) => (
+                      <div key={tweet.id}>
+                        <TweetEmbed tweetId={tweet.tweet_id} />
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>

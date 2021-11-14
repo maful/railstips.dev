@@ -1,10 +1,10 @@
-import { Tweet, Tweets, UpdateTweetForm } from '@/models/tweet'
+import { FilterTweets, Tweet, Tweets, UpdateTweetForm } from '@/models/tweet'
 import { supabase } from 'utils/supabaseClient'
 
 const TABLE = 'tweets'
 
-const getTweets = async (): Promise<Tweets> => {
-  const { error, data } = await supabase
+const getTweets = async (filter: FilterTweets = {}): Promise<Tweets> => {
+  let request = supabase
     .from<Tweet>(TABLE)
     .select(`
       id,
@@ -15,6 +15,12 @@ const getTweets = async (): Promise<Tweets> => {
       categories ( name )
     `)
     .order('created_at', { ascending: false })
+
+  if (filter.categoryId && filter.categoryId !== 'all') {
+    request = request.eq('category_id', filter.categoryId)
+  }
+
+  const { error, data } = await request
 
   if (error) throw error
 
