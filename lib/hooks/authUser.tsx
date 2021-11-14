@@ -1,6 +1,7 @@
+import React from 'react'
 import { Provider, Session, User, UserCredentials } from '@supabase/supabase-js'
+import { ApiError } from '@supabase/gotrue-js/dist/main/GoTrueApi'
 import { useRouter } from 'next/router'
-import * as React from 'react'
 import { basePath } from 'utils/siteConfig'
 import { supabase } from 'utils/supabaseClient'
 
@@ -35,18 +36,14 @@ interface SignInReturn {
   user: User | null
   provider?: Provider
   url?: string | null
-  error: Error | null
-}
-
-interface SignOutReturn {
-  error: Error | null
+  error: ApiError
 }
 
 interface AuthSession {
   user: User | null
   session: Session | null
   signIn: (options: UserCredentials) => Promise<SignInReturn>
-  signOut: () => Promise<SignOutReturn>
+  signOut: () => Promise<{ error: ApiError }>
 }
 
 export const UserContext = React.createContext<AuthSession>({
