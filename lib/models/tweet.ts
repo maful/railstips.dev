@@ -19,4 +19,9 @@ export interface UpdateTweetForm {
 
 export interface Tweet extends BasicTweet, ExtendCategory {}
 
+
+export interface FilterTweets {
+  categoryId?: string;
+}
+
 export type Tweets = Tweet[]
