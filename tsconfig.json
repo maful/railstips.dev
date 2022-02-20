@@ -19,11 +19,20 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "paths": {
-      "@/hooks/*": ["lib/hooks/*"],
-      "@/databases/*": ["lib/databases/*"],
-      "@/models/*": ["lib/models/*"],
-      "@/features/*": ["components/features/*"]
-    }
+      "@/hooks/*": [
+        "lib/hooks/*"
+      ],
+      "@/databases/*": [
+        "lib/databases/*"
+      ],
+      "@/models/*": [
+        "lib/models/*"
+      ],
+      "@/features/*": [
+        "components/features/*"
+      ]
+    },
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",
