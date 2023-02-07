@@ -46,16 +46,6 @@ export default function Home() {
               </div>
 
               <div className="mx-auto max-w-7xl mt-6 px-4 sm:mt-12 sm:px-6 md:mt-12 md:px-16">
-                <div className="overflow-x-auto">
-                  <ul className="flex flex-row gap-4 my-4 font-medium">
-                    <li>
-                      <a className="p-3 cursor-pointer text-gray-600 hover:bg-red-500 hover:text-white rounded-lg">
-                        ActiveRecord
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-
                 <div>
                   <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4">
                     {data.pages.map((page) => (
@@ -69,17 +59,43 @@ export default function Home() {
                       </React.Fragment>
                     ))}
                   </div>
-                  <div>
-                    <button
-                      onClick={() => fetchNextPage()}
-                      disabled={!hasNextPage || isFetchingNextPage}
-                    >
-                      {isFetchingNextPage
-                        ? "Loading more..."
-                        : hasNextPage
-                        ? "Give me more"
-                        : null}
-                    </button>
+                  <div className="flex justify-center">
+                    {hasNextPage ? (
+                      <button
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-red-500 bg-red-500 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-red-700 hover:bg-red-700 focus:ring focus:ring-red-200 disabled:cursor-not-allowed disabled:border-red-300 disabled:bg-red-300"
+                        onClick={() => fetchNextPage()}
+                        disabled={!hasNextPage || isFetchingNextPage}
+                      >
+                        {isFetchingNextPage ? (
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth={4}
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            />
+                          </svg>
+                        ) : null}
+
+                        {isFetchingNextPage
+                          ? "Loading magic..."
+                          : hasNextPage
+                          ? "Bringing in more"
+                          : null}
+                      </button>
+                    ) : null}
                   </div>
                 </div>
               </div>
