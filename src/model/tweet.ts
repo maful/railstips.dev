@@ -4,5 +4,5 @@ export type PublicTweets = Array<Pick<Tweet, "id" | "tweetId">>;
 
 export type TweetsResponse = {
   data: PublicTweets;
-  nextCursor: number | null;
+  nextId: number | null;
 };

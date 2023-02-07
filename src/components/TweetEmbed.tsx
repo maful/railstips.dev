@@ -27,14 +27,9 @@ export default function TweetEmbed(props: Props) {
 
     return () => {
       ignore = true;
-      tweetRef.current?.querySelector("div.twitter-tweet")?.remove();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <>
-      <div id={`tweet_${props.tweetId}`} ref={tweetRef} />
-    </>
-  );
+  return <div ref={tweetRef} />;
 }

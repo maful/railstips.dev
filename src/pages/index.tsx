@@ -18,16 +18,38 @@ export default function Home() {
     return <span>Error</span>;
   }
 
+  const meta = {
+    title: "RailsTips - A collection of tips and tricks for the Ruby on Rails",
+    description:
+      "A collection of tips and tricks for the Ruby on Rails ecosystem curated from Twitter",
+    cardImage: "/og-image.jpeg",
+  };
+
   return (
     <>
       <Head>
-        <title>RailsTips.dev</title>
-        <meta
-          name="description"
-          content="A collection of tips and tricks for the Ruby on Rails ecosystem curated from Twitter"
-        />
+        <title>{meta.title}</title>
+        <meta name="robots" content="follow, index" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link href="/favicon.ico" rel="shortcut icon" />
+        <meta name="description" content={meta.description} />
+        <meta property="og:url" content={`https://railstips.dev`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={meta.title} />
+        <meta property="og:description" content={meta.description} />
+        <meta property="og:title" content={meta.title} />
+        <meta
+          property="og:image"
+          content={`https://railstips.dev${meta.cardImage}`}
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@railstips_dev" />
+        <meta name="twitter:title" content={meta.title} />
+        <meta name="twitter:description" content={meta.description} />
+        <meta
+          name="twitter:image"
+          content={`https://railstips.dev${meta.cardImage}`}
+        />
       </Head>
       <main>
         <div className="relative bg-white overflow-hidden">
@@ -49,7 +71,7 @@ export default function Home() {
                 <div>
                   <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4">
                     {data.pages.map((page) => (
-                      <React.Fragment key={page.nextCursor}>
+                      <React.Fragment key={page.nextId}>
                         {page.data.map((tweet) => (
                           <TweetEmbed
                             key={tweet.tweetId}
