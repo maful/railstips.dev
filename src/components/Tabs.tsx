@@ -23,7 +23,11 @@ export default function Tabs({ query, activeId, onTabChange }: Props) {
   return (
     <ul className="flex items-center gap-2 text-sm font-medium">
       {query.status === "loading" ? (
-        <span>Loading categories</span>
+        <div className="flex gap-2 animate-pulse">
+          {[...Array(5)].map((_el, i) => (
+            <div key={i} className="h-9 w-28 bg-slate-200 rounded"></div>
+          ))}
+        </div>
       ) : query.status === "error" ? (
         <span>Failed fetching categories</span>
       ) : (
