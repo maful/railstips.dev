@@ -13,7 +13,6 @@ const fetchTweets = async ({
   meta = {},
 }: QueryFunctionContext): Promise<TweetsResponse> => {
   const categoryId = (meta["categoryId"] as number) ?? 0;
-  console.log("keys", categoryId);
   const response = await fetch(
     `/api/tweets?nextId=${pageParam}&categoryId=${categoryId}`
   );
