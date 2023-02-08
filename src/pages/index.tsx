@@ -10,14 +10,6 @@ export default function Home() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useTweets();
 
-  if (status === "loading") {
-    return <span>Loading...</span>;
-  }
-
-  if (status === "error") {
-    return <span>Error</span>;
-  }
-
   const meta = {
     title: "RailsTips - A collection of tips and tricks for the Ruby on Rails",
     description:
@@ -68,58 +60,64 @@ export default function Home() {
               </div>
 
               <div className="mx-auto max-w-7xl mt-6 px-4 sm:mt-12 sm:px-6 md:mt-12 md:px-16">
-                <div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4">
-                    {data.pages.map((page) => (
-                      <React.Fragment key={page.nextId}>
-                        {page.data.map((tweet) => (
-                          <TweetEmbed
-                            key={tweet.tweetId}
-                            tweetId={tweet.tweetId}
-                          />
-                        ))}
-                      </React.Fragment>
-                    ))}
-                  </div>
-                  <div className="flex justify-center">
-                    {hasNextPage ? (
-                      <button
-                        className="inline-flex items-center gap-1.5 rounded-lg border border-red-500 bg-red-500 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-red-700 hover:bg-red-700 focus:ring focus:ring-red-200 disabled:cursor-not-allowed disabled:border-red-300 disabled:bg-red-300"
-                        onClick={() => fetchNextPage()}
-                        disabled={!hasNextPage || isFetchingNextPage}
-                      >
-                        {isFetchingNextPage ? (
-                          <svg
-                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth={4}
+                {status === "loading" ? (
+                  <span>Loading...</span>
+                ) : status === "error" ? (
+                  <span>Unable to load tweets</span>
+                ) : (
+                  <div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4">
+                      {data.pages.map((page) => (
+                        <React.Fragment key={page.nextId}>
+                          {page.data.map((tweet) => (
+                            <TweetEmbed
+                              key={tweet.tweetId}
+                              tweetId={tweet.tweetId}
                             />
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            />
-                          </svg>
-                        ) : null}
+                          ))}
+                        </React.Fragment>
+                      ))}
+                    </div>
+                    <div className="flex justify-center">
+                      {hasNextPage ? (
+                        <button
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-red-500 bg-red-500 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-red-700 hover:bg-red-700 focus:ring focus:ring-red-200 disabled:cursor-not-allowed disabled:border-red-300 disabled:bg-red-300"
+                          onClick={() => fetchNextPage()}
+                          disabled={!hasNextPage || isFetchingNextPage}
+                        >
+                          {isFetchingNextPage ? (
+                            <svg
+                              className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth={4}
+                              />
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                              />
+                            </svg>
+                          ) : null}
 
-                        {isFetchingNextPage
-                          ? "Loading magic..."
-                          : hasNextPage
-                          ? "Bringing in more"
-                          : null}
-                      </button>
-                    ) : null}
+                          {isFetchingNextPage
+                            ? "Loading magic..."
+                            : hasNextPage
+                            ? "Bringing in more"
+                            : null}
+                        </button>
+                      ) : null}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

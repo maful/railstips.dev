@@ -24,8 +24,5 @@ export default async function handler(
   });
   const nextId = tweets.length == 6 ? tweets[5].id : null;
 
-  res.status(200).json({
-    data: tweets,
-    nextId,
-  });
+  res.status(200).json({ data: tweets, nextId });
 }
