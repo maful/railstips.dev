@@ -3,8 +3,7 @@ import Head from "next/head";
 import { Inter } from "@next/font/google";
 import { useTweets } from "@/hooks/useTweets";
 import { useCategories } from "@/hooks/useCategories";
-import TweetEmbed from "@/components/TweetEmbed";
-import Tabs from "@/components/Tabs";
+import { Tabs, TweetEmbed } from "@/components";
 
 const inter = Inter({ subsets: ["latin"] });
 
