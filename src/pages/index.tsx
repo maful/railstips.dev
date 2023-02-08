@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import { Inter } from "@next/font/google";
 import TweetEmbed from "@/components/TweetEmbed";
 import { useTweets } from "@/hooks/useTweets";
+import { useCategories } from "@/hooks/useCategories";
+import Tabs from "@/components/Tabs";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [activeCategory, setActiveCategory] = useState<number>(0);
+  const categoriesQuery = useCategories();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useTweets();
+  const handleCategory = (id: number) => {
+    setActiveCategory(id);
+  };
 
   const meta = {
     title: "RailsTips - A collection of tips and tricks for the Ruby on Rails",
@@ -59,7 +66,15 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="mx-auto max-w-7xl mt-6 px-4 sm:mt-12 sm:px-6 md:mt-12 md:px-16">
+              <div className="mx-auto max-w-7xl mt-12 px-6 md:mt-10 md:px-16">
+                <div className="overflow-x-auto mb-4">
+                  <Tabs
+                    query={categoriesQuery}
+                    onTabChange={handleCategory}
+                    activeId={activeCategory}
+                  />
+                </div>
+
                 {status === "loading" ? (
                   <span>Loading...</span>
                 ) : status === "error" ? (
