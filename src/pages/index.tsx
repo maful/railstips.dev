@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState, Fragment } from "react";
 import Head from "next/head";
 import { Inter } from "@next/font/google";
-import TweetEmbed from "@/components/TweetEmbed";
 import { useTweets } from "@/hooks/useTweets";
 import { useCategories } from "@/hooks/useCategories";
+import TweetEmbed from "@/components/TweetEmbed";
 import Tabs from "@/components/Tabs";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -12,7 +12,7 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState<number>(0);
   const categoriesQuery = useCategories();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useTweets();
+    useTweets(activeCategory);
   const handleCategory = (id: number) => {
     setActiveCategory(id);
   };
@@ -83,14 +83,14 @@ export default function Home() {
                   <div>
                     <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4">
                       {data.pages.map((page) => (
-                        <React.Fragment key={page.nextId}>
+                        <Fragment key={page.nextId}>
                           {page.data.map((tweet) => (
                             <TweetEmbed
                               key={tweet.tweetId}
                               tweetId={tweet.tweetId}
                             />
                           ))}
-                        </React.Fragment>
+                        </Fragment>
                       ))}
                     </div>
                     <div className="flex justify-center">

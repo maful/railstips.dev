@@ -1,9 +1,11 @@
 import type { UseQueryResult } from "@tanstack/react-query";
 import type { Category } from "@prisma/client";
-import { CategoriesResponse } from "@/model/category";
+import type { CategoriesResponse } from "@/model/category";
+
+type Categories = CategoriesResponse["categories"];
 
 interface Props {
-  query: UseQueryResult<CategoriesResponse["categories"]>;
+  query: UseQueryResult<Categories>;
   activeId: number;
   onTabChange: (id: Category["id"]) => void;
 }
@@ -13,6 +15,10 @@ export default function Tabs({ query, activeId, onTabChange }: Props) {
     active: "text-red-700 bg-red-100 hover:bg-red-100",
     inactive: "text-gray-700 hover:bg-red-50 hover:text-red-700",
   };
+  const categories: Categories = [
+    { id: 0, name: "All" },
+    ...(query.data ?? []),
+  ];
 
   return (
     <ul className="flex items-center gap-2 text-sm font-medium">
@@ -22,7 +28,7 @@ export default function Tabs({ query, activeId, onTabChange }: Props) {
         <span>Failed fetching categories</span>
       ) : (
         <>
-          {query.data.map((category) => (
+          {categories.map((category) => (
             <li key={category.id}>
               <a
                 onClick={() => onTabChange(category.id)}
