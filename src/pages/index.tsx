@@ -66,7 +66,7 @@ export default function Home() {
               </div>
 
               <div className="mx-auto max-w-7xl mt-12 px-6 md:mt-10 md:px-16">
-                <div className="overflow-x-auto mb-4">
+                <div className="overflow-x-auto mb-4 hide-scroll">
                   <Tabs
                     query={categoriesQuery}
                     onTabChange={handleCategory}
