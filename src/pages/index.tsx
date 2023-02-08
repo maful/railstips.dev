@@ -60,7 +60,8 @@ export default function Home() {
                     <span className="inline">Tips</span>
                   </h1>
                   <div className="mt-2">
-                    Find the most useful tips &amp; tricks
+                    A collection of tips and tricks for the Ruby on Rails
+                    ecosystem curated from Twitter
                   </div>
                 </div>
               </div>
