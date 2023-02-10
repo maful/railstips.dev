@@ -1,6 +1,7 @@
 import { useState, Fragment } from "react";
 import Head from "next/head";
 import { Inter } from "@next/font/google";
+import { useScrollContainer } from "react-indiana-drag-scroll";
 import { useTweets } from "@/hooks/useTweets";
 import { useCategories } from "@/hooks/useCategories";
 import { Tabs, TweetEmbed } from "@/components";
@@ -8,6 +9,7 @@ import { Tabs, TweetEmbed } from "@/components";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const scrollContainer = useScrollContainer();
   const [activeCategory, setActiveCategory] = useState<number>(0);
   const categoriesQuery = useCategories();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
@@ -67,7 +69,10 @@ export default function Home() {
               </div>
 
               <div className="mx-auto max-w-7xl mt-12 px-6 md:mt-10 md:px-16">
-                <div className="overflow-x-auto mb-4 hide-scroll">
+                <div
+                  className="overflow-x-auto mb-4 hide-scroll"
+                  ref={scrollContainer.ref}
+                >
                   <Tabs
                     query={categoriesQuery}
                     onTabChange={handleCategory}

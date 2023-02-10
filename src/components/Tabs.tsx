@@ -15,13 +15,14 @@ export default function Tabs({ query, activeId, onTabChange }: Props) {
     active: "text-red-700 bg-red-100 hover:bg-red-100",
     inactive: "text-gray-700 hover:bg-red-50 hover:text-red-700",
   };
+
   const categories: Categories = [
     { id: 0, name: "All" },
     ...(query.data ?? []),
   ];
 
   return (
-    <ul className="flex items-center gap-2 text-sm font-medium">
+    <>
       {query.status === "loading" ? (
         <div className="flex gap-2 animate-pulse">
           {[...Array(5)].map((_el, i) => (
@@ -32,22 +33,24 @@ export default function Tabs({ query, activeId, onTabChange }: Props) {
         <span>Failed fetching categories</span>
       ) : (
         <>
-          {categories.map((category) => (
-            <li key={category.id}>
-              <a
-                onClick={() => onTabChange(category.id)}
-                className={`relative inline-flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 ${
-                  stateVariants[
-                    activeId === category.id ? "active" : "inactive"
-                  ]
-                }`}
-              >
-                {category.name}
-              </a>
-            </li>
-          ))}
+          <ul className="flex items-center gap-2 text-sm font-medium">
+            {categories.map((category) => (
+              <li key={category.id}>
+                <a
+                  onClick={() => onTabChange(category.id)}
+                  className={`relative inline-flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 ${
+                    stateVariants[
+                      activeId === category.id ? "active" : "inactive"
+                    ]
+                  }`}
+                >
+                  {category.name}
+                </a>
+              </li>
+            ))}
+          </ul>
         </>
       )}
-    </ul>
+    </>
   );
 }
