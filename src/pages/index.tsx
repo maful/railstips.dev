@@ -1,7 +1,9 @@
 import { useState, Fragment } from "react";
 import Head from "next/head";
+import Image from "next/image";
 import { Inter } from "@next/font/google";
 import { useScrollContainer } from "react-indiana-drag-scroll";
+import { useSession, signIn, signOut } from "next-auth/react";
 import { useTweets } from "@/hooks/useTweets";
 import { useCategories } from "@/hooks/useCategories";
 import { Tabs, TweetEmbed } from "@/components";
@@ -10,10 +12,12 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const scrollContainer = useScrollContainer();
+  const { status: sessionStatus, data: sessionData } = useSession();
   const [activeCategory, setActiveCategory] = useState<number>(0);
   const categoriesQuery = useCategories();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useTweets(activeCategory);
+
   const handleCategory = (id: number) => {
     setActiveCategory(id);
   };
@@ -55,8 +59,8 @@ export default function Home() {
         <div className="relative bg-white overflow-hidden">
           <div className="max-w-7xl mx-auto">
             <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:w-full lg:pb-28 xl:pb-32">
-              <div>
-                <div className="relative pt-6 px-4 sm:px-6 md:px-16">
+              <div className="flex gap-6 px-6 md:px-16 pt-6">
+                <div className="flex-1 relative">
                   <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
                     <span className="inline text-red-600">Rails</span>
                     <span className="inline">Tips</span>
@@ -64,6 +68,46 @@ export default function Home() {
                   <div className="mt-2">
                     A collection of tips and tricks for the Ruby on Rails
                     ecosystem curated from Twitter
+                  </div>
+                </div>
+                <div>
+                  <div className="flex gap-8 items-center">
+                    {sessionStatus === "unauthenticated" ? (
+                      <button
+                        type="button"
+                        className="rounded-lg border border-red-500 bg-red-500 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-red-700 hover:bg-red-700 focus:ring focus:ring-red-200"
+                        onClick={() => signIn("github")}
+                      >
+                        Sign in
+                      </button>
+                    ) : sessionStatus === "authenticated" ? (
+                      <>
+                        <div className="flex gap-4">
+                          {sessionData.user?.image ? (
+                            <Image
+                              src={sessionData.user?.image}
+                              alt={sessionData.user?.name ?? "Avatar"}
+                              width={40}
+                              height={40}
+                              className="rounded-full"
+                            />
+                          ) : null}
+                          <div className="flex flex-col text-sm">
+                            <span>Signed in as</span>
+                            <span className="font-medium">
+                              {sessionData.user?.email}
+                            </span>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          className="rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-center text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-100 focus:ring focus:ring-gray-100"
+                          onClick={() => signOut({ redirect: false })}
+                        >
+                          Sign out
+                        </button>
+                      </>
+                    ) : null}
                   </div>
                 </div>
               </div>
