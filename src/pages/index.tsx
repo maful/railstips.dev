@@ -35,7 +35,7 @@ export default function Home() {
         <title>{meta.title}</title>
         <meta name="robots" content="follow, index" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href="/favicon.ico" rel="shortcut icon" />
+        <link href="/favicon.svg" type="image/svg+xml" rel="shortcut icon" />
         <meta name="description" content={meta.description} />
         <meta property="og:url" content={`https://railstips.dev`} />
         <meta property="og:type" content="website" />
