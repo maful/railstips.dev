@@ -24,7 +24,7 @@ export default async function handler(
       : undefined;
 
   const tweets = await prisma.tweet.findMany({
-    select: { id: true, tweetId: true },
+    select: { id: true, tweetId: true, categoryId: true },
     where: { active: true, categoryId: categoryWhere },
     orderBy: { id: "desc" },
     skip,
