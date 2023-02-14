@@ -4,23 +4,71 @@ import Image from "next/image";
 import { Inter } from "@next/font/google";
 import { useScrollContainer } from "react-indiana-drag-scroll";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { Menu, Transition } from "@headlessui/react";
-import { useTweets } from "@/hooks/useTweets";
+import { Menu, Transition, Dialog } from "@headlessui/react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useQueryClient } from "@tanstack/react-query";
+import toast, { Toaster } from "react-hot-toast";
+import { tweetKeys, useCreateTweet, useTweets } from "@/hooks/useTweets";
 import { useCategories } from "@/hooks/useCategories";
 import { Tabs, TweetEmbed } from "@/components";
+import type { TweetCreate } from "@/model/tweet";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const notifyAdded = () =>
+  toast.success("Tweet successfully added!", { duration: 3_000 });
+
 export default function Home() {
+  const queryClient = useQueryClient();
   const scrollContainer = useScrollContainer();
   const { status: sessionStatus, data: sessionData } = useSession();
   const [activeCategory, setActiveCategory] = useState<number>(0);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const categoriesQuery = useCategories();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useTweets(activeCategory);
+  const createTweetMutation = useCreateTweet();
+  const {
+    register,
+    handleSubmit,
+    reset: resetForm,
+    setError,
+    formState: { errors },
+  } = useForm<TweetCreate>();
+
+  const onSubmitTweet: SubmitHandler<TweetCreate> = async (data) => {
+    createTweetMutation.mutate(data, {
+      onSuccess: (newTweet) => {
+        queryClient.invalidateQueries({
+          queryKey: tweetKeys.byCategory(newTweet.categoryId),
+        });
+
+        if (activeCategory === 0) {
+          queryClient.invalidateQueries({
+            queryKey: tweetKeys.byCategory(0),
+          });
+        }
+
+        closeModal();
+        notifyAdded();
+      },
+      onError: (e) => {
+        setError("tweetId", { type: "custom", message: e.message });
+      },
+    });
+  };
 
   const handleCategory = (id: number) => {
     setActiveCategory(id);
+  };
+
+  const closeModal = () => {
+    resetForm();
+    setModalIsOpen(false);
+  };
+
+  const openModal = () => {
+    setModalIsOpen(true);
   };
 
   const meta = {
@@ -83,6 +131,13 @@ export default function Home() {
                       </button>
                     ) : sessionStatus === "authenticated" ? (
                       <>
+                        <button
+                          type="button"
+                          onClick={openModal}
+                          className="rounded-lg border border-red-100 bg-red-100 px-5 py-2.5 text-center text-sm font-medium text-red-600 transition-all hover:border-red-200 hover:bg-red-200 focus:ring focus:ring-red-50 disabled:border-red-50 disabled:bg-red-50 disabled:text-red-400"
+                        >
+                          Add tweet
+                        </button>
                         <Menu
                           as="div"
                           className="relative inline-block text-left"
@@ -263,6 +318,116 @@ export default function Home() {
           </div>
         </div>
       </main>
+      <Transition appear show={modalIsOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+                  <div className="relative p-6">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-lg font-medium leading-6 text-gray-900"
+                    >
+                      Add new tips and tricks from Twitter
+                    </Dialog.Title>
+                    <form
+                      onSubmit={handleSubmit(onSubmitTweet)}
+                      id="tweetForm"
+                      className="mt-4 space-y-5"
+                    >
+                      <div>
+                        <label
+                          htmlFor="tweetId"
+                          className="mb-1 block text-sm font-medium text-gray-700"
+                        >
+                          Tweet ID
+                        </label>
+                        <input
+                          {...register("tweetId", { required: true })}
+                          className="form-input block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-400 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                        />
+                        {errors.tweetId ? (
+                          <p className="mt-1 text-sm text-red-500">
+                            {errors.tweetId.message
+                              ? errors.tweetId.message
+                              : "Tweet ID is required"}
+                          </p>
+                        ) : null}
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="categoryId"
+                          className="mb-1 block text-sm font-medium text-gray-700"
+                        >
+                          Category
+                        </label>
+                        <select
+                          {...register("categoryId", { required: true })}
+                          className="form-select block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                          defaultValue={""}
+                        >
+                          <option value="" disabled>
+                            Choose category
+                          </option>
+                          {(categoriesQuery.data ?? []).map((category) => (
+                            <option key={category.id} value={category.id}>
+                              {category.name}
+                            </option>
+                          ))}
+                        </select>
+                        {errors.categoryId ? (
+                          <p className="mt-1 text-sm text-red-500">
+                            Category is required
+                          </p>
+                        ) : null}
+                      </div>
+                    </form>
+                  </div>
+
+                  <div className="mt-4 flex justify-end gap-3 bg-gray-50 px-6 py-3">
+                    <button
+                      type="button"
+                      className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-100 focus:ring focus:ring-gray-100"
+                      onClick={closeModal}
+                    >
+                      Close
+                    </button>
+                    <button
+                      type="submit"
+                      className="rounded-lg border border-red-500 bg-red-500 px-4 py-2 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-red-700 hover:bg-red-700 focus:ring focus:ring-red-200"
+                      form="tweetForm"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+      <Toaster />
     </>
   );
 }

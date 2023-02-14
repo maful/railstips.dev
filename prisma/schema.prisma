@@ -11,14 +11,18 @@ datasource db {
 }
 
 model Tweet {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
-  tweetId    String   @unique @map("tweet_id")
-  active     Boolean  @default(true)
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int      @map("category_id")
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  tweetId     String   @unique @map("tweet_id")
+  active      Boolean  @default(true)
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  Int      @map("category_id")
+  submitter   User?    @relation(fields: [submitterId], references: [id])
+  submitterId String?  @map("submitter_id")
 
+  @@index([submitterId])
+  @@index([categoryId])
   @@map("tweets")
 }
 
@@ -72,6 +76,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  Tweet         Tweet[]
 
   @@map("users")
 }
