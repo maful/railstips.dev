@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Inter } from "@next/font/google";
 import { useScrollContainer } from "react-indiana-drag-scroll";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { Menu, Transition } from "@headlessui/react";
 import { useTweets } from "@/hooks/useTweets";
 import { useCategories } from "@/hooks/useCategories";
 import { Tabs, TweetEmbed } from "@/components";
@@ -82,30 +83,98 @@ export default function Home() {
                       </button>
                     ) : sessionStatus === "authenticated" ? (
                       <>
-                        <div className="flex gap-4">
-                          {sessionData.user?.image ? (
-                            <Image
-                              src={sessionData.user?.image}
-                              alt={sessionData.user?.name ?? "Avatar"}
-                              width={40}
-                              height={40}
-                              className="rounded-full"
-                            />
-                          ) : null}
-                          <div className="flex flex-col text-sm">
-                            <span>Signed in as</span>
-                            <span className="font-medium">
-                              {sessionData.user?.email}
-                            </span>
-                          </div>
-                        </div>
-                        <button
-                          type="button"
-                          className="rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-center text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-100 focus:ring focus:ring-gray-100"
-                          onClick={() => signOut({ redirect: false })}
+                        <Menu
+                          as="div"
+                          className="relative inline-block text-left"
                         >
-                          Sign out
-                        </button>
+                          <div>
+                            <Menu.Button>
+                              <div className="flex gap-2 items-center">
+                                <Image
+                                  src={
+                                    sessionData.user?.image ??
+                                    `https://ui-avatars.com/api/?name=${
+                                      sessionData.user?.name ?? "Avatar"
+                                    }&size=128&rounded=true`
+                                  }
+                                  alt={sessionData.user?.name ?? "Avatar"}
+                                  width={40}
+                                  height={40}
+                                  className="rounded-full"
+                                />
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5 text-gray-400"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clipRule="evenodd"
+                                  />
+                                </svg>
+                              </div>
+                            </Menu.Button>
+                          </div>
+                          <Transition
+                            as={Fragment}
+                            enter="transition ease-out duration-100"
+                            enterFrom="transform opacity-0 scale-95"
+                            enterTo="transform opacity-100 scale-100"
+                            leave="transition ease-in duration-75"
+                            leaveFrom="transform opacity-100 scale-100"
+                            leaveTo="transform opacity-0 scale-95"
+                          >
+                            <Menu.Items className="absolute right-0 mt-2 w-60 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+                              <div className="py-3 px-4">
+                                <div className="flex items-center gap-3">
+                                  <div className="relative h-10 w-10">
+                                    <Image
+                                      src={
+                                        sessionData.user?.image ??
+                                        `https://ui-avatars.com/api/?name=${
+                                          sessionData.user?.name ?? "Avatar"
+                                        }&size=128&rounded=true`
+                                      }
+                                      alt={sessionData.user?.name ?? "Avatar"}
+                                      width={40}
+                                      height={40}
+                                      className="rounded-full object-cover object-center ring ring-white"
+                                    />
+                                  </div>
+                                  <div className="text-sm">
+                                    <div className="font-medium text-gray-700">
+                                      {sessionData.user?.name}
+                                    </div>
+                                    <div className="text-gray-400">
+                                      {sessionData.user?.email}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="p-1">
+                                <Menu.Item key="signout" as={Fragment}>
+                                  {({ active }) => (
+                                    <button
+                                      type="button"
+                                      className={`${
+                                        active
+                                          ? "bg-gray-100 text-gray-700"
+                                          : "text-gray-900"
+                                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                      onClick={() =>
+                                        signOut({ redirect: false })
+                                      }
+                                    >
+                                      Sign out
+                                    </button>
+                                  )}
+                                </Menu.Item>
+                              </div>
+                            </Menu.Items>
+                          </Transition>
+                        </Menu>
                       </>
                     ) : null}
                   </div>
