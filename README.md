@@ -1,3 +1,9 @@
-# Welcome to RailsTips.dev
+# RailsTips.dev
 
-Railstips is a collection of tips and tricks for the Ruby on Rails ecosystem curated from Twitter. It is a valuable resource for developers who are new to Ruby on Rails or looking to enhance their existing knowledge. Whether you are a beginner or an experienced developer, Railstips is an excellent way to stay informed and improve your skills.
+<img align="right" height="200" width="200" title="RailsTips.dev logo" src="https://raw.githubusercontent.com/maful/railstips.dev/main/public/favicon.svg">
+
+RailsTips.dev is a collection of tips and tricks for the Ruby on Rails ecosystem curated from Twitter.
+
+It is a valuable resource for developers who are new to Ruby on Rails or looking to enhance their existing knowledge. Whether you are a beginner or an experienced developer, RailsTips.dev is an excellent way to stay informed and improve your skills.
+
+> [Libur.run](https://github.com/maful/libur.run) has been launched 🚀 - Empower Your HR with Next-Gen Open Source Self-Serve Platform
