@@ -1,4 +1,4 @@
-# RailsTips.dev
+# RailsTips.dev &middot; <a href="https://twitter.com/railstips_dev"><img alt="Follow Twitter" src="https://img.shields.io/twitter/follow/railstips_dev?style=social"></a>
 
 <img align="right" height="200" width="200" title="RailsTips.dev logo" src="https://raw.githubusercontent.com/maful/railstips.dev/main/public/favicon.svg">
 
