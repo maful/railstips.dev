@@ -108,7 +108,7 @@ export default function Home() {
         <div className="relative bg-white overflow-hidden">
           <div className="max-w-7xl mx-auto">
             <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:w-full lg:pb-28 xl:pb-32">
-              <div className="flex gap-6 px-6 md:px-16 pt-6">
+              <div className="flex flex-col md:flex-row gap-4 md:gap-6 px-6 md:px-16 pt-6">
                 <div className="flex-1 relative">
                   <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
                     <span className="inline text-red-600">Rails</span>
@@ -120,7 +120,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div>
-                  <div className="flex gap-8 items-center">
+                  <div className="flex gap-6 md:gap-8 items-center justify-end">
                     {sessionStatus === "unauthenticated" ? (
                       <button
                         type="button"
@@ -235,6 +235,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+              <hr className="mt-6 md:hidden h-px border-0 bg-gray-300" />
 
               <div className="mx-auto max-w-7xl mt-12 px-6 md:mt-10 md:px-16">
                 <div
