@@ -10,7 +10,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
 import { tweetKeys, useCreateTweet, useTweets } from "@/hooks/useTweets";
 import { useCategories } from "@/hooks/useCategories";
-import { Tabs, TweetEmbed } from "@/components";
+import { Tabs, TweetEmbed, Footer } from "@/components";
 import type { TweetCreate } from "@/model/tweet";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -107,7 +107,7 @@ export default function Home() {
       <main>
         <div className="relative bg-white overflow-hidden">
           <div className="max-w-7xl mx-auto">
-            <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:w-full lg:pb-28 xl:pb-32">
+            <div className="relative z-10 bg-white pb-16 md:pb-20 lg:w-full">
               <div className="flex flex-col md:flex-row gap-4 md:gap-6 px-6 md:px-16 pt-6">
                 <div className="flex-1 relative">
                   <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
@@ -236,7 +236,6 @@ export default function Home() {
                 </div>
               </div>
               <hr className="mt-6 md:hidden h-px border-0 bg-gray-300" />
-
               <div className="mx-auto max-w-7xl mt-12 px-6 md:mt-10 md:px-16">
                 <div
                   className="overflow-x-auto mb-4 hide-scroll"
@@ -315,6 +314,7 @@ export default function Home() {
                   </div>
                 )}
               </div>
+              <Footer />
             </div>
           </div>
         </div>
