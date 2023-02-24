@@ -1,8 +1,8 @@
 export default function Footer() {
   return (
-    <div className="w-full mt-16">
+    <div className="w-full mt-16 px-6 md:px-16">
       <hr className="h-px border-0 bg-gray-200" />
-      <div className="mt-8 flex items-center justify-between ">
+      <div className="mt-8 flex flex-col md:flex-row gap-4 items-center md:justify-between">
         <div className="text-base text-slate-500">
           Initiated by{" "}
           <a
