@@ -6,4 +6,4 @@ RailsTips.dev is a collection of tips and tricks for the Ruby on Rails ecosystem
 
 It is a valuable resource for developers who are new to Ruby on Rails or looking to enhance their existing knowledge. Whether you are a beginner or an experienced developer, RailsTips.dev is an excellent way to stay informed and improve your skills.
 
-> [Libur.run](https://github.com/maful/libur.run) has been launched 🚀 - Empower Your HR with Next-Gen Open Source Self-Serve Platform
+> [Libur.run](https://github.com/maful/libur.run) - Empower Your HR with Next-Gen Open Source Self-Serve Platform
